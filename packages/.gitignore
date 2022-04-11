@@ -1,0 +1,7 @@
+# dependencies
+/node_modules
+
+
+lerna-debug.log
+package-lock.json
+yarn.lock

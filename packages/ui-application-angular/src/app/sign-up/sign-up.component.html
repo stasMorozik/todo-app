@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-center">
+  <div class="col-12 col-xl-3">
+    <div class="text-center d-flex justify-content-center">
+      <a class="link-dark p-2 me-2 fs-3" routerLink="/sign-in">Sign In</a>
+      <a class="link-dark p-2 ms-2 fs-3" routerLink="/sign-up">Sign Up</a> 
+    </div>
+    <div class="bg-white shadow-sm h-100 rounded-3">
+      <form class="p-5" [formGroup]="form">
+        <input 
+          (change)="onChangeName()" 
+          formControlName="name" 
+          type="text" 
+          class="form-control mb-3" 
+          placeholder="Name"
+          [ngClass]="{'border-success': isSuccessValidationName, 'border-danger' : isSuccessValidationName === false }"
+        >
+        <input 
+          (change)="onChangeEmail()" 
+          formControlName="email" 
+          type="text" 
+          class="form-control mb-3" 
+          placeholder="Email"
+          [ngClass]="{'border-success': isSuccessValidationEmail, 'border-danger' : isSuccessValidationEmail === false }"
+        >
+        <input 
+          (change)="onChangePassword()" 
+          formControlName="password" 
+          type="password" 
+          class="form-control mb-3"
+          [ngClass]="{'border-success': isSuccessValidationPassword, 'border-danger' : isSuccessValidationPassword === false }"
+        >
+        <div class="text-center">
+          <button 
+            [attr.disabled] = "!form.invalid && isSuccessValidationName && isSuccessValidationEmail && isSuccessValidationPassword ? null : 'disabled'" 
+            class="btn btn-primary" 
+            (click)="onSignUp()"
+          >
+            Registration
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="position-absolute end-0 bottom-0 me-4 alert alert-danger" [@alert]="stateAnim">{{alertMessage}}</div>

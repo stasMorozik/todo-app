@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "packages/*",
+    "packages/adapters-ports/dist/*"
+  ],
+  "version": "0.0.0"
+}
