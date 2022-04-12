@@ -1,10 +1,13 @@
-<div class="position-fixed top-0 w-100 start-0 end-0">
+<div class="position-fixed shadow-sm top-0 w-100 start-0 end-0 bg-white">
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-10 d-flex justify-content-between align-items-end pt-5 pb-5">
-        <div class="fs-3"><span class="text-muted me-4">Account</span><span>Emty</span></div>
-        <div class="fs-3">Hello, {{userName}}</div>
-        <a (click)="onExit()" class="link-primary">Exit</a>
+      <div class="col-10">
+        <div class="row pt-2 pb-2 align-items-center">
+          <div class="col-12 col-xl-6 text-xl-end">Hello, {{userName}}</div>
+          <div class="col-12 col-xl-6 text-xl-end">
+            <a class="link-primary" (click)="onExit()">Exit</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

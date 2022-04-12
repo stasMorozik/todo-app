@@ -60,9 +60,22 @@ export class SignInComponent implements OnInit, OnDestroy {
           )
         }
         return of(event)
-      })
+      }),
+      tap(event => {
+        if (event instanceof ErrorAuthentication) {
+          this.stateAnim = 'initial'
+        }
+      }),
+      switchMap(event => {
+        if (event instanceof ErrorAuthentication) {
+          return of(event).pipe(
+            delay(event ? 3000 : 0)
+          )
+        }
+        return of(event)
+      }),
     ).subscribe(_ => {
-      this.stateAnim = 'initial'
+      this.isSuccessAuthentication = true
     })
   }
 

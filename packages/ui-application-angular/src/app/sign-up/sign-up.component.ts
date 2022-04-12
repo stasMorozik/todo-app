@@ -101,9 +101,19 @@ export class SignUpComponent implements OnInit, OnDestroy {
         return of(event).pipe(
           delay(event ? 10000 : 0)
         )
-      })
+      }),
+      tap(event => {
+        if (event) {
+          this.stateAnim = 'initial'
+        }
+      }),
+      switchMap(event => {
+        return of(event).pipe(
+          delay(event ? 3000 : 0)
+        )
+      }),
     ).subscribe(_ => {
-      this.stateAnim = 'initial'
+      this.isSuccessRegistration = null
     })
 
     this._channelResultValidationSub = this.channelResultValidation.subscribe(event => {
