@@ -18,16 +18,16 @@
           class="form-control mb-3"
         >
         <div class="text-center">
-          <button 
+          <button
+            [attr.disabled] = "!form.invalid ? null : 'disabled'"  
             class="btn btn-primary" 
-            (click)="onSignUp()"
+            (click)="onSignIn()"
           >
-            Registration
+          Sign In
           </button>
         </div>
       </form>
     </div>
   </div>
 </div>
-
-<div class="position-absolute end-0 bottom-0 me-4 alert alert-danger" [@alert]="stateAnim">{{alertMessage}}</div>
+<div [ngClass]="{'alert-danger': isSuccessAuthentication === false }" class="position-absolute end-0 bottom-0 me-4 alert" [@alert]="stateAnim">{{alertMessage}}</div>

@@ -41,17 +41,16 @@ import {
 export class SignUpComponent implements OnInit, OnDestroy {
   form: FormGroup
   private _channelResultValidationSub: Subscription | null = null
-  private _channelErrorRegistrationSub: Subscription | null = null
+  private _channelResultRegistrationSub: Subscription | null = null
+
   constructor(
     private _fb: FormBuilder,
+  
+    private readonly _registrationUseCase: RegistrationUseCase,
 
-    @Inject(RegistrationUseCase)
-      private readonly _registrationUseCase: RegistrationUseCase,
+    @Inject('CHANNEL_RESULT_REGISTRATION') 
+      public channelResultRegistration: Subject<User | ErrorAlreadyExists | null>,
 
-    @Inject('CHANNEL_SUCCESS_REGISTRATION') 
-      public channelSuccessRegistration: Subject<User | null>,
-    @Inject('CHANNEL_ERROR_REGISTRATION') 
-      public channelErrorRegistration: Subject<ErrorAlreadyExists | null>,
     @Inject('CHANNEL_RESULT_VALIDATION') 
       public channelResultValidation: Subject<
       ErrorValidationNameDto       | 
@@ -74,29 +73,36 @@ export class SignUpComponent implements OnInit, OnDestroy {
   isSuccessValidationEmail: null | boolean = null
   isSuccessValidationPassword: null | boolean = null
 
+  isSuccessRegistration: null | boolean = null
+  isProcessRegistration: null | boolean = null
+
+
   stateAnim: string = 'initial'
 
   alertMessage: string | null = null
 
   ngOnInit(): void {
 
-    this.channelSuccessRegistration.subscribe(event => {
-      console.log(event)
-    })
-
-    this._channelErrorRegistrationSub = this.channelErrorRegistration.pipe(
-      tap(err => {
-        if (err) {
-          this.stateAnim = 'expanded'
-          this.alertMessage = err.message
+    this._channelResultRegistrationSub = this.channelResultRegistration.pipe(
+      delay(2000),
+      tap(event => {
+        this.isProcessRegistration = false
+        if (event instanceof ErrorAlreadyExists) {
+          this.alertMessage = event.message
+          this.isSuccessRegistration = false
+        }
+        if (event instanceof User) {
+          this.alertMessage = `Hello ${event.name} you have successfuly registered and can login`
+          this.isSuccessRegistration = true
+          this.form.reset()
         }
       }),
-      switchMap(err => {
-        return of(err).pipe(
-          delay(err ? 10000 : 0)
+      switchMap(event => {
+        return of(event).pipe(
+          delay(event ? 10000 : 0)
         )
       })
-    ).subscribe(err => {
+    ).subscribe(_ => {
       this.stateAnim = 'initial'
     })
 
@@ -129,7 +135,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._channelResultValidationSub?.unsubscribe()
-    this._channelErrorRegistrationSub?.unsubscribe()
+    this._channelResultRegistrationSub?.unsubscribe()
   }
 
   onSignUp() {
@@ -139,6 +145,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.isSuccessValidationEmail &&
       this.isSuccessValidationPassword
     ) {
+      this.isProcessRegistration = true
+      this.stateAnim = 'expanded'
       this._registrationUseCase.registration(new RegistrationCommand(
         new RegitrationData(
           this.form.value.name,

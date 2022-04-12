@@ -2,14 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SignUpRoutingModule } from './sign-up-routing.module';
 import { SignUpComponent } from './sign-up.component';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { 
-  usersReducer, 
-  ChannelErrorRegistrationService,
   ChannelUserStoreDataService,
-  ChannelSuccessRegistrationService,
   SelectUserStoreDataService,
-  ChannelResultValidationService
+  ChannelResultValidationService,
+  ChannelResultRegistrationService
 } from 'adapters';
 
 import {
@@ -23,11 +24,9 @@ import {
   SuccessValidationPasswordDto, 
   User
 } from 'domain-core';
-import { Subject } from 'rxjs';
-import { ReactiveFormsModule } from '@angular/forms';
 
-const channelSuccessRegistration = new Subject<User | null>()
-const channelErrorRegistration = new Subject<ErrorAlreadyExists | null>()
+const channelResultRegistration = new Subject<User | ErrorAlreadyExists | null>()
+
 const channelResultValidation = new Subject<
   ErrorValidationNameDto       | 
   ErrorValidationEmailDto      | 
@@ -45,7 +44,6 @@ const channelResultValidation = new Subject<
   imports: [
     CommonModule,
     SignUpRoutingModule,
-    StoreModule.forFeature('state', usersReducer),
     ReactiveFormsModule
   ],
   providers: [
@@ -64,18 +62,7 @@ const channelResultValidation = new Subject<
         Store
       ]
     },
-    {
-      provide: ChannelSuccessRegistrationService,
-      useFactory: () => {
-        return new ChannelSuccessRegistrationService(channelSuccessRegistration)
-      }
-    },
-    {
-      provide: ChannelErrorRegistrationService,
-      useFactory: () => {
-        return new ChannelErrorRegistrationService(channelErrorRegistration)
-      }
-    },
+    
     {
       provide: ChannelResultValidationService,
       useFactory: () => {
@@ -83,23 +70,24 @@ const channelResultValidation = new Subject<
       }
     },
     {
+      provide: ChannelResultRegistrationService,
+      useFactory: () => {
+        return new ChannelResultRegistrationService(channelResultRegistration)
+      }
+    },
+    {
       provide: RegistrationUseCase,
       useClass: RegistrationUseCase,
       deps: [
-        ChannelSuccessRegistrationService,
+        ChannelResultRegistrationService,
         ChannelUserStoreDataService,
         SelectUserStoreDataService,
-        ChannelErrorRegistrationService,
         ChannelResultValidationService
       ]
     },
     {
-      provide: 'CHANNEL_SUCCESS_REGISTRATION',
-      useValue: channelSuccessRegistration
-    },
-    {
-      provide: 'CHANNEL_ERROR_REGISTRATION',
-      useValue: channelErrorRegistration
+      provide: 'CHANNEL_RESULT_REGISTRATION',
+      useValue: channelResultRegistration
     },
     {
       provide: 'CHANNEL_RESULT_VALIDATION',

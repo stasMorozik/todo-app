@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { MainRoutingModule } from './main-routing.module';
-import { MainComponent } from './main.component';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ChannelResultAuthorizationService, ChannelTokenStoreDataService, SelectTokenStoreDataService, SelectUserStoreDataService } from 'adapters';
 import { ErrorAuthorization, User, AuthorizationUseCase, SuccessDeAuthorizationDto } from 'domain-core';
+import { HaveAuthorizationGuard } from './have-authorization.guard';
+import { HaveNotAuthorizationGuard } from './have-not-authorization.guard';
 
 const channelResultAuthorization = new Subject<ErrorAuthorization | SuccessDeAuthorizationDto | User | null>()
 
 @NgModule({
-  declarations: [
-    MainComponent
-  ],
+  declarations: [],
   imports: [
-    CommonModule,
-    MainRoutingModule
+    CommonModule
   ],
-  providers:[
+  providers: [
     Store,
     {
       provide: SelectUserStoreDataService,
@@ -61,6 +57,12 @@ const channelResultAuthorization = new Subject<ErrorAuthorization | SuccessDeAut
       provide: 'CHANNEL_RESULT_ATHORIZATION',
       useValue: channelResultAuthorization
     },
+    {
+      provide: HaveAuthorizationGuard,
+    },
+    {
+      provide: HaveNotAuthorizationGuard
+    }
   ]
 })
-export class MainModule { }
+export class CoreModule { }

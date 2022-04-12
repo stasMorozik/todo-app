@@ -1,3 +1,3 @@
 export {
-  ChannelErrorAuthentication
-} from './channel-error-authentication';
+  ChannelResultAuthentication
+} from './channel-result-authentication';

@@ -11,7 +11,7 @@ export class ValidateName {
       return left(new ErrorValidationNameDto())
     }
 
-    if (this.name.match(/[0-9_!@#$%^&*()=-_+~`,.\/\\?;:\]\[{}]/)) {
+    if (this.name.match(/[ 0-9!@#$%^&\*,.\/\\ \[ \] \{ \} \_ ]/)) {
       return left(new ErrorValidationNameDto())
     }
 

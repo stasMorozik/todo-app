@@ -3,14 +3,9 @@ import { EchoState, initialState } from './state';
 import { createAction, createReducer, on, props, Store } from '@ngrx/store';
 import { ChannelTokenStoreData, Token } from 'domain-core';
 
-export const actionDeauthorization = createAction(
-  '[Tokens] Deauthorization',
+export const actionExchangeTokens = createAction(
+  '[Tokens] Exchange Tokens',
   props<{tokens: Token[]}>()
-)
-
-export const tokensReducer = createReducer(
-  initialState,
-  on(actionDeauthorization, (state, {tokens}) => (  {  users: [...state.users], tokens: [...tokens]  } )),
 )
 
 @Injectable({
@@ -22,6 +17,6 @@ export class ChannelTokenStoreDataService implements ChannelTokenStoreData {
   ) {}
 
   emit(tokens: Token[]): void {
-    this._store.dispatch(actionDeauthorization({tokens}))
+    this._store.dispatch(actionExchangeTokens({tokens}))
   }
 }

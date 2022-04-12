@@ -1,4 +1,7 @@
+import { createReducer, on } from "@ngrx/store";
 import { Token, User } from "domain-core";
+import { actionExchangeTokens } from "./channel-token-store-data.service";
+import { actionExchangeUsers } from "./channel-user-store-data.service";
 
 export interface Selector {
   state: {
@@ -16,3 +19,13 @@ export const initialState: EchoState = {
   users: [],
   tokens: []
 }
+
+export const reducer = createReducer(
+  initialState,
+  on(actionExchangeTokens, (state, {tokens}) => {
+    return {  users: [...state.users], tokens: [...tokens]  }
+  }),
+  on(actionExchangeUsers, (state, {users}) => {
+    return { users: [...users], tokens: [...state.tokens] }
+  }),
+)

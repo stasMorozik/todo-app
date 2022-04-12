@@ -1,9 +1,7 @@
 import { RegistrationCommand } from "../commands/registration-command";
 import { ErrorAlreadyExists } from "../dto/error-alreday-exists";
 import { SelectUserStoreData } from "../../../common/ports/in/select-user-store-data";
-import { ChannelErrorRegistration } from "../ports/out/channel-error-regitration";
 import { ChannelUserStoreData } from "../ports/out/channel-user-store-data";
-import { ChannellSuccessRegistration } from "../ports/out/channel-success-registration";
 import { ValidateEmail } from "../rules/validate-email";
 import { ValidatePassword } from "../rules/validate-password";
 import { ValidateName } from "../rules/vlidate-name";
@@ -15,13 +13,13 @@ import { ChannelResultValidation } from "../ports/out/channel-result-validation"
 import { SuccessValidationPasswordDto } from "../dto/success-validation-password-dto";
 import { SuccessValidationNameDto } from "../dto/success-validation-name-dto";
 import { SuccessValidationEmailDto } from "../dto/success-validation-email-dto";
+import { ChannelResultRegistration } from "../ports/out/channel-result-registration";
 
 export class RegistrationUseCase {
   constructor(
-    private readonly _channellSuccessRegistration: ChannellSuccessRegistration,
+    private readonly _channelResultRegistration: ChannelResultRegistration,
     private readonly _channelUserStoreData: ChannelUserStoreData,
     private readonly _selectUserStoreData: SelectUserStoreData,
-    private readonly _channelError: ChannelErrorRegistration,
     private readonly _channelResultValidation: ChannelResultValidation
   ) {}
 
@@ -57,14 +55,11 @@ export class RegistrationUseCase {
         resultValidateName.isRight()
       ) {
         this._selectUserStoreData.select().then(r => {
-          if (
-            r.find(user => user.email == command.data.email)
-          ) {
-            this._channelError.emit(new ErrorAlreadyExists())
+          if (r.find(user => user.email == command.data.email)) {
+            this._channelResultRegistration.emit(new ErrorAlreadyExists())
           } else {
-            const newUser = new User(r.length,command.data.name,command.data.email)
-            this._channellSuccessRegistration.emit(newUser)
-            this._channelUserStoreData.emit([...r, newUser])
+            this._channelResultRegistration.emit(new User(r.length,command.data.name,command.data.email))
+            this._channelUserStoreData.emit([...r, new User(r.length,command.data.name,command.data.email, command.data.password)])
           }
         }).catch(e => {
           console.log(e)

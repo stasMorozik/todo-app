@@ -3,14 +3,9 @@ import { ChannelUserStoreData, User } from 'domain-core';
 import { createAction, createReducer, on, props, Store } from '@ngrx/store';
 import { EchoState, initialState } from './state';
 
-export const actionRegistration = createAction(
-  '[Users] Registration',
+export const actionExchangeUsers = createAction(
+  '[Users] Exchange Users',
   props<{users: User[]}>()
-)
-
-export const usersReducer = createReducer(
-  initialState,
-  on(actionRegistration, (state, {users}) => ( { users: [...users], tokens: [...state.tokens] } )),
 )
 
 @Injectable({
@@ -22,6 +17,6 @@ export class ChannelUserStoreDataService implements ChannelUserStoreData {
   ) {}
   
   emit(users: User[]): void {
-    this._store.dispatch(actionRegistration({users}))
+    this._store.dispatch(actionExchangeUsers({users}))
   }
 }

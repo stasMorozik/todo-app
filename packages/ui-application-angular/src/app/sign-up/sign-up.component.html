@@ -30,16 +30,21 @@
           [ngClass]="{'border-success': isSuccessValidationPassword, 'border-danger' : isSuccessValidationPassword === false }"
         >
         <div class="text-center">
-          <button 
-            [attr.disabled] = "!form.invalid && isSuccessValidationName && isSuccessValidationEmail && isSuccessValidationPassword ? null : 'disabled'" 
-            class="btn btn-primary" 
-            (click)="onSignUp()"
-          >
-            Registration
-          </button>
+          <ng-container *ngIf="isProcessRegistration == true">
+            <button disabled class="btn btn-primary"><img style="width:20px;" src="../../assets/loader.svg"></button>
+          </ng-container>
+          <ng-container *ngIf="!isProcessRegistration">
+            <button 
+              [attr.disabled] = "!form.invalid && isSuccessValidationName && isSuccessValidationEmail && isSuccessValidationPassword ? null : 'disabled'" 
+              class="btn btn-primary" 
+              (click)="onSignUp()"
+            >
+              Sign Up
+            </button>
+          </ng-container>
         </div>
       </form>
     </div>
   </div>
 </div>
-<div class="position-absolute end-0 bottom-0 me-4 alert alert-danger" [@alert]="stateAnim">{{alertMessage}}</div>
+<div [ngClass]="{'alert-danger': isSuccessRegistration === false, 'alert-success': isSuccessRegistration}" class="alert-danger position-absolute end-0 bottom-0 me-4 alert" [@alert]="stateAnim">{{alertMessage}}</div>
