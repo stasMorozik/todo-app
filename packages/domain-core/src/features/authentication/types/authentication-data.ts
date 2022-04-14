@@ -1,6 +1,11 @@
 export class AuthenticationData {
+  readonly email: string
+  readonly password: string
   constructor(
-    readonly email: string,
-    readonly password: string
-  ){}
+    email: string,
+    password: string
+  ){
+    this.email = email.trim()
+    this.password = password.trim()
+  }
 }

@@ -3,5 +3,5 @@ export {
 } from '../../../common/types/user';
 
 export {
-  RegitrationData
+  RegistrationData
 } from './registration-data';

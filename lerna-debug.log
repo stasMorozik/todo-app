@@ -1,0 +1,12 @@
+0 silly argv {
+0 silly argv   _: [ 'add' ],
+0 silly argv   scope: 'ui-application-angular',
+0 silly argv   globs: [],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/usr/local/bin/lerna',
+0 silly argv   pkg: 'todo-ui-components'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /home/stas/todo-app
+3 error HttpErrorGeneral: 404 Not Found - GET https://registry.npmjs.org/todo-ui-components - Not found
+3 error     at /home/stas/todo-app/node_modules/@lerna/add/node_modules/npm-registry-fetch/check-response.js:95:15

@@ -7,7 +7,7 @@ import {
   ErrorValidationPasswordDto, 
   RegistrationCommand, 
   RegistrationUseCase,
-  RegitrationData,
+  RegistrationData,
   SuccessValidationEmailDto,
   SuccessValidationNameDto,
   SuccessValidationPasswordDto,
@@ -158,7 +158,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.isProcessRegistration = true
       this.stateAnim = 'expanded'
       this._registrationUseCase.registration(new RegistrationCommand(
-        new RegitrationData(
+        new RegistrationData(
           this.form.value.name,
           this.form.value.email,
           this.form.value.password

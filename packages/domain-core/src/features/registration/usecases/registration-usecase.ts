@@ -30,9 +30,9 @@ export class RegistrationUseCase {
     ValidationEmailCommand 
   ) {
     if (command instanceof RegistrationCommand) {
-      const validateEmail = new ValidateEmail(command.data.email)
-      const validateName = new ValidateName(command.data.name)
-      const validatePassword = new ValidatePassword(command.data.password)
+      const validateEmail = new ValidateEmail(command.registrationData.email)
+      const validateName = new ValidateName(command.registrationData.name)
+      const validatePassword = new ValidatePassword(command.registrationData.password)
 
       const resultValidateEmail = validateEmail.validate()
       if (resultValidateEmail.isLeft()) {
@@ -55,11 +55,11 @@ export class RegistrationUseCase {
         resultValidateName.isRight()
       ) {
         this._selectUserStoreData.select().then(r => {
-          if (r.find(user => user.email == command.data.email)) {
+          if (r.find(user => user.email == command.registrationData.email)) {
             this._channelResultRegistration.emit(new ErrorAlreadyExists())
           } else {
-            this._channelResultRegistration.emit(new User(r.length,command.data.name,command.data.email))
-            this._channelUserStoreData.emit([...r, new User(r.length,command.data.name,command.data.email, command.data.password)])
+            this._channelResultRegistration.emit(new User(r.length,command.registrationData.name,command.registrationData.email))
+            this._channelUserStoreData.emit([...r, new User(r.length,command.registrationData.name,command.registrationData.email, command.registrationData.password)])
           }
         }).catch(e => {
           console.log(e)

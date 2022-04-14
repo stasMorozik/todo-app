@@ -1,8 +1,15 @@
 
-export class RegitrationData {
+export class RegistrationData {
+  readonly name: string
+  readonly email: string
+  readonly password: string
   constructor(
-    readonly name: string,
-    readonly email: string,
-    readonly password: string
-  ){}
+    name: string,
+    email: string,
+    password: string
+  ){
+    this.name = name.trim()
+    this.email = email.trim()
+    this.password = password.trim()
+  }
 }

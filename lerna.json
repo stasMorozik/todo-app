@@ -1,7 +1,8 @@
 {
   "packages": [
     "packages/*",
-    "packages/adapters-ports/dist/*"
+    "packages/adapters-ports/dist/*",
+    "packages/ui-components-library-angular/dist/*"
   ],
   "version": "0.0.0"
 }
