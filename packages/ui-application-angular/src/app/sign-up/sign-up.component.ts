@@ -180,5 +180,4 @@ export class SignUpComponent implements OnInit, OnDestroy {
   onChangePassword() {
     this._validationUseCase.validate(new ValidationPasswordCommand(this.form.get('password')?.value))
   }
-
 }

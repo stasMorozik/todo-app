@@ -1,0 +1,24 @@
+button {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+button:disabled {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+button:active {
+  box-shadow: 0px 0px 0px 3px #8080805c;
+}
+
+button:focus {
+  box-shadow: 0px 0px 0px 3px #8080805c;
+}
+
+button:hover {
+  background-color: #d3d3d3;
+}

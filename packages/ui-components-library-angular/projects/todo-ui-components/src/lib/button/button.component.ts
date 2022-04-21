@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'lib-button',
   template: `
-    <button><ng-content></ng-content></button>
+    <button [attr.disabled]="disabled ? 'disabled' : null"><ng-content></ng-content></button>
   `,
-  styles: [`
-    box-shadow: 0px 1px 1px 2px #80808073;
-    border-radius: 3px;
-    color: #000000;
-    border: none;
-  `]
+  styleUrls: [
+    './button.component.css'
+  ]
 })
 export class ButtonComponent implements OnInit {
 
   constructor() { }
+
+  @Input() disabled = false
 
   ngOnInit(): void {
   }
