@@ -23,7 +23,8 @@ import {
   SuccessValidationEmailDto, 
   SuccessValidationNameDto, 
   SuccessValidationPasswordDto, 
-  User
+  User,
+  ValidationUseCase
 } from 'domain-core';
 
 const channelResultRegistration = new Subject<User | ErrorAlreadyExists | null>()
@@ -84,6 +85,13 @@ const channelResultValidation = new Subject<
         ChannelResultRegistrationService,
         ChannelUserStoreDataService,
         SelectUserStoreDataService,
+        ChannelResultValidationService
+      ]
+    },
+    {
+      provide: ValidationUseCase,
+      useClass: ValidationUseCase,
+      deps: [
         ChannelResultValidationService
       ]
     },

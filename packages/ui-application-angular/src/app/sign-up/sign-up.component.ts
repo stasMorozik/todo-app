@@ -14,7 +14,8 @@ import {
   User,
   ValidationEmailCommand,
   ValidationNameCommand, 
-  ValidationPasswordCommand
+  ValidationPasswordCommand,
+  ValidationUseCase
 } from 'domain-core';
 import { delay, of, Subject, Subscription, switchMap, tap } from 'rxjs';
 import {
@@ -42,11 +43,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
   form: FormGroup
   private _channelResultValidationSub: Subscription | null = null
   private _channelResultRegistrationSub: Subscription | null = null
-
+  
   constructor(
     private _fb: FormBuilder,
   
     private readonly _registrationUseCase: RegistrationUseCase,
+    private readonly _validationUseCase: ValidationUseCase,
 
     @Inject('CHANNEL_RESULT_REGISTRATION') 
       public channelResultRegistration: Subject<User | ErrorAlreadyExists | null>,
@@ -168,15 +170,15 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   onChangeName() {
-    this._registrationUseCase.registration(new ValidationNameCommand(this.form.get('name')?.value))
+    this._validationUseCase.validate(new ValidationNameCommand(this.form.get('name')?.value))
   }
 
   onChangeEmail() {
-    this._registrationUseCase.registration(new ValidationEmailCommand(this.form.get('email')?.value))
+    this._validationUseCase.validate(new ValidationEmailCommand(this.form.get('email')?.value))
   }
 
   onChangePassword() {
-    this._registrationUseCase.registration(new ValidationPasswordCommand(this.form.get('password')?.value))
+    this._validationUseCase.validate(new ValidationPasswordCommand(this.form.get('password')?.value))
   }
 
 }

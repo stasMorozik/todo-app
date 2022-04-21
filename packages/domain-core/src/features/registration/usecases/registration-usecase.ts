@@ -24,84 +24,44 @@ export class RegistrationUseCase {
   ) {}
 
   registration(
-    command: RegistrationCommand | 
-    ValidationPasswordCommand |
-    ValidationNameCommand |
-    ValidationEmailCommand 
+    command: RegistrationCommand
   ) {
-    if (command instanceof RegistrationCommand) {
-      const validateEmail = new ValidateEmail(command.registrationData.email)
-      const validateName = new ValidateName(command.registrationData.name)
-      const validatePassword = new ValidatePassword(command.registrationData.password)
+    
+    const validateEmail = new ValidateEmail(command.registrationData.email)
+    const validateName = new ValidateName(command.registrationData.name)
+    const validatePassword = new ValidatePassword(command.registrationData.password)
 
-      const resultValidateEmail = validateEmail.validate()
-      if (resultValidateEmail.isLeft()) {
-        resultValidateEmail.mapLeft(err => this._channelResultValidation.emit(err))
-      }
-
-      const resultValidateName = validateName.validate()
-      if (resultValidateName.isLeft()) {
-        resultValidateName.mapLeft(err => this._channelResultValidation.emit(err))
-      }
-      
-      const resultValidatePassword = validatePassword.validate()
-      if (resultValidatePassword.isLeft()) {
-        resultValidatePassword.mapLeft(err => this._channelResultValidation.emit(err))
-      }
-
-      if (
-        resultValidatePassword.isRight() &&
-        resultValidateName.isRight() &&
-        resultValidateName.isRight()
-      ) {
-        this._selectUserStoreData.select().then(r => {
-          if (r.find(user => user.email == command.registrationData.email)) {
-            this._channelResultRegistration.emit(new ErrorAlreadyExists())
-          } else {
-            this._channelResultRegistration.emit(new User(r.length,command.registrationData.name,command.registrationData.email))
-            this._channelUserStoreData.emit([...r, new User(r.length,command.registrationData.name,command.registrationData.email, command.registrationData.password)])
-          }
-        }).catch(e => {
-          console.log(e)
-        })
-      }
+    const resultValidateEmail = validateEmail.validate()
+    if (resultValidateEmail.isLeft()) {
+      resultValidateEmail.mapLeft(err => this._channelResultValidation.emit(err))
     }
 
-    if (command instanceof ValidationPasswordCommand) {
-      const validatePassword = new ValidatePassword(command.password)
-      const resultValidatePassword = validatePassword.validate()
-      if (resultValidatePassword.isLeft()) {
-        resultValidatePassword.mapLeft(err => this._channelResultValidation.emit(err))
-      }
-
-      if (resultValidatePassword.isRight()) {
-        resultValidatePassword.mapRight(_ => this._channelResultValidation.emit(new SuccessValidationPasswordDto()))
-      }
-    }
-
-    if (command instanceof ValidationNameCommand) {
-      const validateName = new ValidateName(command.name)
-      const resultValidateName = validateName.validate()
-      if (resultValidateName.isLeft()) {
-        resultValidateName.mapLeft(err => this._channelResultValidation.emit(err))
-      }
-
-      if (resultValidateName.isRight()) {
-        resultValidateName.mapRight(_ => this._channelResultValidation.emit(new SuccessValidationNameDto()))
-      }
-    }
-
-    if (command instanceof ValidationEmailCommand) {
-      const validateEmail = new ValidateEmail(command.email)
-      const resultValidateEmail = validateEmail.validate()
-      if (resultValidateEmail.isLeft()) {
-        resultValidateEmail.mapLeft(err => this._channelResultValidation.emit(err))
-      }
-      
-      if (resultValidateEmail.isRight()) {
-        resultValidateEmail.mapRight(_ => this._channelResultValidation.emit(new SuccessValidationEmailDto()))
-      }
+    const resultValidateName = validateName.validate()
+    if (resultValidateName.isLeft()) {
+      resultValidateName.mapLeft(err => this._channelResultValidation.emit(err))
     }
     
+    const resultValidatePassword = validatePassword.validate()
+    if (resultValidatePassword.isLeft()) {
+      resultValidatePassword.mapLeft(err => this._channelResultValidation.emit(err))
+    }
+
+    if (
+      resultValidatePassword.isRight() &&
+      resultValidateName.isRight() &&
+      resultValidateName.isRight()
+    ) {
+      this._selectUserStoreData.select().then(r => {
+        if (r.find(user => user.email == command.registrationData.email)) {
+          this._channelResultRegistration.emit(new ErrorAlreadyExists())
+        } else {
+          this._channelResultRegistration.emit(new User(r.length,command.registrationData.name,command.registrationData.email))
+          this._channelUserStoreData.emit([...r, new User(r.length,command.registrationData.name,command.registrationData.email, command.registrationData.password)])
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+    }
+        
   }
 }
