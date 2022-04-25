@@ -3,20 +3,23 @@
  */
 
 
-export * from './lib/button/button.module';
-export * from './lib/button/button.component';
+export * from './lib/buttons/button/button.module';
+export * from './lib/buttons/button/button.component';
 
-export * from './lib/icon-button/icon-button.module';
-export * from './lib/icon-button/icon-button.component';
+export * from './lib/buttons/icon-button/icon-button.module';
+export * from './lib/buttons/icon-button/icon-button.component';
 
-export * from './lib/green-button/green-button.module';
-export * from './lib/green-button/green-button.component';
+export * from './lib/buttons/green-button/green-button.module';
+export * from './lib/buttons/green-button/green-button.component';
 
-export * from './lib/blue-button/blue-button.module';
-export * from './lib/blue-button/blue-button.component';
+export * from './lib/buttons/blue-button/blue-button.module';
+export * from './lib/buttons/blue-button/blue-button.component';
 
-export * from './lib/red-button/red-button.module';
-export * from './lib/red-button/red-button.component';
+export * from './lib/buttons/red-button/red-button.module';
+export * from './lib/buttons/red-button/red-button.component';
 
-export * from './lib/red-icon-button-trash/red-icon-button-trash.module';
-export * from './lib/red-icon-button-trash/red-icon-button-trash.component';
+export * from './lib/buttons/red-icon-button-close/red-icon-button-close.module';
+export * from './lib/buttons/red-icon-button-close/red-icon-button-close.component';
+
+export * from './lib/buttons/green-icon-button-done/green-icon-button-done.module';
+export * from './lib/buttons/green-icon-button-done/green-icon-button-done.component';

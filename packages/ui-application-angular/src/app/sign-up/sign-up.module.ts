@@ -5,7 +5,15 @@ import { SignUpComponent } from './sign-up.component';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ButtonModule, IconButtonModule, GreenButtonModule, BlueButtonModule, RedButtonModule, RedIconButtonTrashModule } from 'todo-ui-components';
+import { 
+  ButtonModule, 
+  IconButtonModule, 
+  GreenButtonModule, 
+  BlueButtonModule, 
+  RedButtonModule, 
+  RedIconButtonCloseModule, 
+  GreenIconButtonDoneModule 
+} from 'todo-ui-components';
 
 import { 
   ChannelUserStoreDataService,
@@ -52,7 +60,8 @@ const channelResultValidation = new Subject<
     GreenButtonModule,
     BlueButtonModule,
     RedButtonModule,
-    RedIconButtonTrashModule
+    RedIconButtonCloseModule,
+    GreenIconButtonDoneModule
   ],
   providers: [
     Store,

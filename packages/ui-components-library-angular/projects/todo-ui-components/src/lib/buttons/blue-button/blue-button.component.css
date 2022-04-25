@@ -8,3 +8,7 @@ button {
 button:hover {
   background-color: #161162;
 }
+
+button:focus {
+  background-color: #161162;
+}
