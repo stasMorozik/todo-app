@@ -15,3 +15,9 @@ export * from './authentication/dto';
 export * from './authentication/ports';
 export * from './authentication/types';
 export * from './authentication/usecases';
+
+export * from './task/commands';
+export * from './task/dto';
+export * from './task/ports';
+export * from './task/types';
+export * from './task/usecases';
