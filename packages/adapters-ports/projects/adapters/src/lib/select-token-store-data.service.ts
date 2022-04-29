@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { createSelector, Store } from '@ngrx/store';
-import { Selector } from './state';
+import { select, Selector } from './state';
 import { SelectTokenStoreData, Token } from 'domain-core';
 
-export const selectTokens = (state: Selector) => state
-
 export const tokens = createSelector(
-  selectTokens,
+  select,
   (state) => state.state.tokens
 )
 

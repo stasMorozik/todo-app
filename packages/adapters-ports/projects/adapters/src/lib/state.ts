@@ -4,10 +4,7 @@ import { actionExchangeTokens } from "./channel-token-store-data.service";
 import { actionExchangeUsers } from "./channel-user-store-data.service";
 
 export interface Selector {
-  state: {
-    users: User[]
-    tokens: Token[]
-  }
+  state: EchoState
 }
 
 export interface EchoState {
@@ -18,6 +15,10 @@ export interface EchoState {
 export const initialState: EchoState = {
   users: [],
   tokens: []
+}
+
+export const select = (state: Selector) => {
+  return state
 }
 
 export const reducer = createReducer(
