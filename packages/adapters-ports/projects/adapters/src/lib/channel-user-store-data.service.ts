@@ -1,12 +1,8 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ChannelUserStoreData, User } from 'domain-core';
-import { createAction, createReducer, on, props, Store } from '@ngrx/store';
-import { EchoState, initialState } from './state';
+import { Store } from '@ngrx/store';
+import { actionExchangeUsers, EchoState } from './state';
 
-export const actionExchangeUsers = createAction(
-  '[Users] Exchange Users',
-  props<{users: User[]}>()
-)
 
 @Injectable({
   providedIn: 'root'

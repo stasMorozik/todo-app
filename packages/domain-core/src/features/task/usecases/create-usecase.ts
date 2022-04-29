@@ -4,7 +4,7 @@ import { SelectTaskStoreData } from "../ports/in/select-task-store-data";
 import { ChannelUserTask } from "../ports/out/channel-user-task";
 import { ChannelTaskStoreData } from "../ports/out/channel-task-store-data";
 import { CreateCommand } from "../commands/create-command";
-import { ChannelResultExchange } from "../ports/out/channel-result-change-tasks";
+import { ChannelResultChangeTasks } from "../ports/out/channel-result-change-tasks";
 import { ErrorCreatingTaskDto } from "../dto/error-creating-task-dto";
 import { Task } from "../types";
 
@@ -15,7 +15,7 @@ export class CreateUseCase {
     private readonly _selectStoreTokenData: SelectTokenStoreData,
     private readonly _selectUserStoreData: SelectUserStoreData,
     private readonly _channelTaskStoreData: ChannelTaskStoreData,
-    private readonly _channelResultExchange: ChannelResultExchange
+    private readonly _channelResultChangeTasks: ChannelResultChangeTasks
   ){}
 
   create(command: CreateCommand){
@@ -32,12 +32,12 @@ export class CreateUseCase {
             })
           }
           if (!foundUser) {
-            this._channelResultExchange.emit(new ErrorCreatingTaskDto())
+            this._channelResultChangeTasks.emit(new ErrorCreatingTaskDto())
           }
         })
       }
       if (!foundToken) {
-        this._channelResultExchange.emit(new ErrorCreatingTaskDto())
+        this._channelResultChangeTasks.emit(new ErrorCreatingTaskDto())
       }
     })
   }

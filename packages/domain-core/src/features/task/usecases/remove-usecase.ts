@@ -4,7 +4,7 @@ import { SelectTaskStoreData } from "../ports/in/select-task-store-data";
 import { ChannelUserTask } from "../ports/out/channel-user-task";
 import { ChannelTaskStoreData } from "../ports/out/channel-task-store-data";
 import { RemoveCommand } from "../commands/remove-command";
-import { ChannelResultExchange } from "../ports/out/channel-result-change-tasks";
+import { ChannelResultChangeTasks } from "../ports/out/channel-result-change-tasks";
 import { ErrorRemovingTaskDto } from "../dto/error-removing-task-dto";
 
 export class RemoveUseCase {
@@ -14,7 +14,7 @@ export class RemoveUseCase {
     private readonly _selectStoreTokenData: SelectTokenStoreData,
     private readonly _selectUserStoreData: SelectUserStoreData,
     private readonly _channelTaskStoreData: ChannelTaskStoreData,
-    private readonly _channelResultExchange: ChannelResultExchange
+    private readonly _channelResultChangeTasks: ChannelResultChangeTasks
   ){}
 
   remove(command: RemoveCommand){
@@ -31,12 +31,12 @@ export class RemoveUseCase {
             })
           }
           if (!foundUser) {
-            this._channelResultExchange.emit(new ErrorRemovingTaskDto())
+            this._channelResultChangeTasks.emit(new ErrorRemovingTaskDto())
           }
         })
       }
       if (!foundToken) {
-        this._channelResultExchange.emit(new ErrorRemovingTaskDto())
+        this._channelResultChangeTasks.emit(new ErrorRemovingTaskDto())
       }
     })
   }

@@ -4,7 +4,7 @@ import { SelectTaskStoreData } from "../ports/in/select-task-store-data";
 import { ChannelUserTask } from "../ports/out/channel-user-task";
 import { ExecuteCommand } from "../commands/execute-command";
 import { ChannelTaskStoreData } from "../ports/out/channel-task-store-data";
-import { ChannelResultExchange } from "../ports/out/channel-result-change-tasks";
+import { ChannelResultChangeTasks } from "../ports/out/channel-result-change-tasks";
 import { Task } from "../types/task";
 import { ErrorExecutingTaskDto } from "../dto/error-executing-task-dto";
 
@@ -15,7 +15,7 @@ export class ExecuteUseCase {
     private readonly _selectStoreTokenData: SelectTokenStoreData,
     private readonly _selectUserStoreData: SelectUserStoreData,
     private readonly _channelTaskStoreData: ChannelTaskStoreData,
-    private readonly _channelResultExchange: ChannelResultExchange
+    private readonly _channelResultChangeTasks: ChannelResultChangeTasks
   ){}
 
   execute(command: ExecuteCommand) {
@@ -43,12 +43,12 @@ export class ExecuteUseCase {
             })
           }
           if (!foundUser) {
-            this._channelResultExchange.emit(new ErrorExecutingTaskDto())
+            this._channelResultChangeTasks.emit(new ErrorExecutingTaskDto())
           }
         })
       }
       if (!foundToken) {
-        this._channelResultExchange.emit(new ErrorExecutingTaskDto())
+        this._channelResultChangeTasks.emit(new ErrorExecutingTaskDto())
       }
     })
   }
