@@ -1,4 +1,4 @@
-<div class="position-fixed shadow-sm top-0 w-100 start-0 end-0 bg-white">
+<div class="position-fixed border top-0 w-100 start-0 end-0 bg-white">
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-10">
@@ -12,22 +12,32 @@
     </div>
   </div>
 </div>
-<div class="container-fluid">
+<div class="container-fluid h-100">
 
-<div class="row justify-content-center">
-  <div class="col-8 bg-white">
-    <form>
-      <label for="title" class="form-label">Title</label>
-      <input type="text" class="form-control" id="title" placeholder="Some title">
-    </form>
+<div class="mt-5 row justify-content-center h-100">
+  <div class="pt-3 rounded pb-3 col-12 col-xl-8 mt-5 mb-5 bg-white shadow-sm">
+    <div class="row justify-content-center">
+      <div class="border-bottom col-12 pt-2 pb-2">
+        <form [formGroup]="searchForm">
+          <input formControlName="title"  type="text" class="form-control" placeholder="Search by some title">
+        </form>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12 mt-2 border-bottom mb-2 pt-2 pb-2">
+        <form [formGroup]="createForm">
+          <input formControlName="title" type="text" class="form-control mb-2" id="title" placeholder="Some title">
+          <textarea formControlName="desc" class="form-control mb-2" placeholder="Some description"></textarea>
+          <button (click)="onCreate()" class="btn btn-primary">Create</button>
+        </form>
+      </div>
+      <div *ngFor="let task of channelUserTask | async" class="col-12 mt-2 border-bottom mb-2 pt-2 pb-2">
+        <div>{{task.title}}</div>
+        <div>{{task.desc}}</div>
+        <div><button (click)="onRemove(task.id)" class="btn btn-danger">Remove</button></div>
+      </div>
+    </div>
   </div>
-  <!--<ul>
-    <li *ngFor="let task of channelUserTask | async">
-      <p>Имя пользователя: {{ user.name }}</p>
-      <p>Возраст пользователя: {{ user.age }}</p>
-    </li>
-  </ul>-->
-
 </div>
 
 </div>

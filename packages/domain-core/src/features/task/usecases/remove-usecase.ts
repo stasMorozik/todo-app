@@ -25,7 +25,7 @@ export class RemoveUseCase {
           const foundUser = users.find(el => el.uid == foundToken.uidUser)
           if (foundUser) {
             this._selectTaskStoreData.select().then(tasks => {
-              const newTasks = tasks.filter(task => task.id == command.id && task.idUser == foundUser.uid)
+              const newTasks = tasks.filter(task => task.id != command.id && task.idUser == foundUser.uid)
               this._channelTaskStoreData.emit(newTasks)
               this._channelUserTask.emit(newTasks.filter(task => task.idUser == foundUser.uid))
             })

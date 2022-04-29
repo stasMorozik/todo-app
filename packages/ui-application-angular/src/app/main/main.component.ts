@@ -1,4 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { 
   AuthorizationCommand, 
@@ -15,7 +16,10 @@ import {
   ListCommand, 
   CreateUseCase, 
   RemoveUseCase, 
-  ExecuteUseCase
+  ExecuteUseCase,
+  CreateCommand,
+  SearchCommand,
+  RemoveCommand
 } from 'domain-core';
 import { BehaviorSubject } from 'rxjs';
 import { Subject } from 'rxjs';
@@ -31,7 +35,11 @@ export class MainComponent implements OnInit, OnDestroy {
 
   token: string
 
+  createForm: FormGroup
+  searchForm: FormGroup
+
   constructor(
+    private _fb: FormBuilder,
     private _router: Router,
     private readonly _authorizationUseCase: AuthorizationUseCase,
     private readonly _listUseCase: ListUseCase,
@@ -50,6 +58,15 @@ export class MainComponent implements OnInit, OnDestroy {
   ) {
     const token = window.localStorage.getItem('token')
     this.token = token ? token : ``
+
+    this.createForm = this._fb.group({
+      title: ['', [Validators.required]],
+      desc: ['', []],
+    })
+
+    this.searchForm = this._fb.group({
+      title: ['', [Validators.required]]
+    })
   }
   
   ngOnInit(): void {
@@ -63,6 +80,15 @@ export class MainComponent implements OnInit, OnDestroy {
         this._router.navigate(['/sign-in'])
       }
     })
+
+    this.searchForm.valueChanges.subscribe(r => {
+      if (this.searchForm.valid) {
+        this._listUseCase.list(new SearchCommand(this.token, this.searchForm.value.title))
+      }
+      if (!this.searchForm.valid) {
+        this._listUseCase.list(new ListCommand(this.token))
+      }
+    })
   }
 
   ngOnDestroy(): void {}
@@ -71,4 +97,13 @@ export class MainComponent implements OnInit, OnDestroy {
     this._authorizationUseCase.authorization(new DeAuthorizationCommand(this.token))
   }
 
+  onCreate() {
+    if(this.createForm.valid) {
+      this._createUseCase.create(new CreateCommand(this.token, this.createForm.value.title, this.createForm.value.desc))
+    }
+  }
+
+  onRemove(id: number) {
+    this._removeUseCase.remove(new RemoveCommand(this.token, id))
+  }
 }

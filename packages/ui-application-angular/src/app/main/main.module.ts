@@ -83,7 +83,6 @@ const channelResultChangeTasks = new Subject<ErrorCreatingTaskDto | ErrorRemovin
         ChannelResultAuthorizationService
       ]
     },
-
     {
       provide: SelectTaskStoreDataService,
       useClass: SelectTaskStoreDataService,
