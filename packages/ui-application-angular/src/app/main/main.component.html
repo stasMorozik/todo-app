@@ -32,9 +32,14 @@
         </form>
       </div>
       <div *ngFor="let task of channelUserTask | async" class="col-12 mt-2 border-bottom mb-2 pt-2 pb-2">
-        <div>{{task.title}}</div>
-        <div>{{task.desc}}</div>
-        <div><button (click)="onRemove(task.id)" class="btn btn-danger">Remove</button></div>
+        <div class="row">
+          <div class="col-12 mb-3">{{task.title}}</div>
+          <div class="col-12 mb-3">{{task.desc}}</div>
+          <div class="col-12 col-xl-3 d-flex justify-content-between">
+            <button (click)="onRemove(task.id)" class="btn btn-danger">Remove</button>
+            <button [disabled] = "task.isDone == false ? null : true" (click)="onExecute(task.id)" class="btn btn-success">Execute</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

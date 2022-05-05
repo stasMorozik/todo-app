@@ -26,7 +26,7 @@ export class ListUseCase {
               }
       
               if (command instanceof SearchCommand) {
-                this._channelUserTask.emit(tasks.filter(task => task.idUser == foundUser.uid && task.title == command.title))
+                this._channelUserTask.emit(tasks.filter(task => task.idUser == foundUser.uid && task.title.indexOf(command.title) == 0))
               }
             })
           }

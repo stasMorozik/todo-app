@@ -27,7 +27,7 @@ export class ExecuteUseCase {
           if (foundUser) {
             this._selectTaskStoreData.select().then(tasks => {
               const newTasks = tasks.map(task => {
-                if (task.idUser == foundUser.uid) {
+                if (task.idUser == foundUser.uid && task.id == command.id) {
                   return new Task(
                     task.title,
                     task.id,

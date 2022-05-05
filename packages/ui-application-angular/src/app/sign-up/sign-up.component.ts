@@ -17,7 +17,7 @@ import {
   ValidationPasswordCommand,
   ValidationUseCase
 } from 'domain-core';
-import { delay, of, Subject, Subscription, switchMap, tap } from 'rxjs';
+import { delay, map, of, Subject, Subscription, switchMap, tap } from 'rxjs';
 import {
   trigger,
   state,
@@ -84,7 +84,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   alertMessage: string | null = null
 
   ngOnInit(): void {
-
     this._channelResultRegistrationSub = this.channelResultRegistration.pipe(
       delay(2000),
       tap(event => {

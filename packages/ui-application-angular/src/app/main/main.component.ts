@@ -19,7 +19,8 @@ import {
   ExecuteUseCase,
   CreateCommand,
   SearchCommand,
-  RemoveCommand
+  RemoveCommand,
+  ExecuteCommand
 } from 'domain-core';
 import { BehaviorSubject } from 'rxjs';
 import { Subject } from 'rxjs';
@@ -105,5 +106,9 @@ export class MainComponent implements OnInit, OnDestroy {
 
   onRemove(id: number) {
     this._removeUseCase.remove(new RemoveCommand(this.token, id))
+  }
+
+  onExecute(id: number) {
+    this._executeUseCase.execute(new ExecuteCommand(this.token, id))
   }
 }
